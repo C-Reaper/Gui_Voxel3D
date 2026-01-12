@@ -65,7 +65,7 @@ void Update(AlxWindow* w){
 		Menu_Set(!voxelworld.menu);
 
 	if(Stroke(ALX_KEY_Z).PRESSED)
-		voxelworld.mode = voxelworld.mode < 3 ? voxelworld.mode + 1 : 0;
+		voxelworld.mode = voxelworld.mode < 2 ? voxelworld.mode + 1 : 0;
 
 	if(Stroke(ALX_KEY_C).PRESSED){
 		Figure3D* fig = VoxelWorld_GetFigure(&voxelworld);
@@ -93,7 +93,7 @@ void Update(AlxWindow* w){
 	Clear(LIGHT_BLUE);
 	VoxelWorld_Render(WINDOW_STD_ARGS,&voxelworld);
 
-	String str = String_Format("X: %f, Y: %f, Z: %f, Size: %d",VoxelWorld_GetFigure(&voxelworld)->p.x,VoxelWorld_GetFigure(&voxelworld)->p.y,VoxelWorld_GetFigure(&voxelworld)->p.z,voxelworld.meshselected->size);
+	String str = String_Format("X: %f, Y: %f, Z: %f, Size: %d",VoxelWorld_GetFigure(&voxelworld)->p.x,VoxelWorld_GetFigure(&voxelworld)->p.y,VoxelWorld_GetFigure(&voxelworld)->p.z,(Number)voxelworld.meshselected->size);
 	RenderCStrSize(str.Memory,str.size,0,0,RED);
 	String_Free(&str);
 }
