@@ -39,8 +39,7 @@ void Setup(AlxWindow* w){
 			Vec3D_New(10.0f,100.0f,10.0f),
 			Vec3D_New(0.5f,1.4f,0.5f),
 			Vec3D_New(0.0f,-10.0f,0.0f),
-			1,
-			(unsigned int[]){
+			1,(unsigned int[]){
 				0xFFAAAA00,//1,
 				0xFF000088,//1,
 				0xFFAAAA00,//1,
