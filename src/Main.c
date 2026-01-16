@@ -39,9 +39,20 @@ void Setup(AlxWindow* w){
 			Vec3D_New(10.0f,100.0f,10.0f),
 			Vec3D_New(0.5f,1.4f,0.5f),
 			Vec3D_New(0.0f,-10.0f,0.0f),
-			1
+			1,
+			(unsigned int[]){
+				0xFFAAAA00,//1,
+				0xFF000088,//1,
+				0xFFAAAA00,//1,
+				0xFFAAAA00,//1,
+				0xFF111111,//1,
+				0xFF111111,//1,
+				0xFF333333,//1,
+				0xFF333333//1
+			}
 		),
-		"../data"
+		"./assets/Own_Atlas.png",
+		"./data"
 	);
 	VoxelWorld_Start(&voxelworld);
 }
@@ -65,7 +76,7 @@ void Update(AlxWindow* w){
 		Menu_Set(!voxelworld.menu);
 
 	if(Stroke(ALX_KEY_Z).PRESSED)
-		voxelworld.mode = voxelworld.mode < 2 ? voxelworld.mode + 1 : 0;
+		VoxelWorld_Cubes_Mode(&voxelworld,voxelworld.mode + 1);
 
 	if(Stroke(ALX_KEY_C).PRESSED){
 		Figure3D* fig = VoxelWorld_GetFigure(&voxelworld);
