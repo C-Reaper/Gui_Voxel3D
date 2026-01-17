@@ -5,13 +5,26 @@
 //#include "F:/home/codeleaded/System/Static/Library/ImageFilter.h"
 
 #include "/home/codeleaded/System/Static/Library/WindowEngine1.0.h"
-#include "/home/codeleaded/System/Static/Library/Random.h"
 #include "/home/codeleaded/System/Static/Library/RayCast.h"
 #include "/home/codeleaded/System/Static/Library/Thread.h"
 #include "/home/codeleaded/System/Static/Library/ImageFilter.h"
 #include "/home/codeleaded/System/Static/Library/VoxelWorld.h"
+#include "/home/codeleaded/System/Static/Library/Selector.h"
 
+void Fn_Render(
+    Block* b,
+    unsigned int* Target,
+    int Width,
+    int Height,
+    float x,float y,
+    float w,float h
+){
+	const Pixel p = Block_Pixel(*b,SIDE_TOP);
+	Rect_RenderXX(Target,Width,Height,x,y,w,h,p);
+}
 
+Block selected;
+Selector selector;
 VoxelWorld voxelworld;
 
 void Menu_Set(int m){
@@ -30,16 +43,29 @@ void Menu_Set(int m){
 void Setup(AlxWindow* w){
 	Menu_Set(0);
 
-	RGA_Set(Time_Nano());
-	RGA_Get(6969);
-	PerlinNoise_Permutations_Init();
+	selector = Selector_New(
+        (Block[]){
+            BLOCK_VOID,BLOCK_DIRT,
+			BLOCK_STONE,BLOCK_GRASS,
+			BLOCK_GRAS,BLOCK_LEAF,
+			BLOCK_LOGS,BLOCK_LOG,
+			BLOCK_TORCH
+        },
+        sizeof(Block),
+        9U,
+        LIGHT_GRAY,
+        0.05f,0.05f,0.9f,0.9f,
+        0.1f,0.2f,
+        (void(*)(void*,unsigned int*,int,int,float,float,float,float))Fn_Render
+    );
 
 	voxelworld = VoxelWorld_New(
 		Figure3D_New(
-			Vec3D_New(10.0f,100.0f,10.0f),
+			Vec3D_New(0.0f,0.0f,0.0f),
 			Vec3D_New(0.5f,1.4f,0.5f),
 			Vec3D_New(0.0f,-10.0f,0.0f),
-			1,(unsigned int[]){
+			1,
+			(unsigned int[]){
 				0xFFAAAA00,//1,
 				0xFF000088,//1,
 				0xFFAAAA00,//1,
@@ -51,7 +77,7 @@ void Setup(AlxWindow* w){
 			}
 		),
 		"./assets/Own_Atlas.png",
-		"./data"
+		"./data/Test"
 	);
 	VoxelWorld_Start(&voxelworld);
 }
@@ -71,8 +97,10 @@ void Update(AlxWindow* w){
 		}
 	}
 	
-	if(Stroke(ALX_KEY_ESC).PRESSED)
+	if(Stroke(ALX_KEY_ESC).PRESSED){
 		Menu_Set(!voxelworld.menu);
+		Selector_State(&selector,!selector.visible);
+	}
 
 	if(Stroke(ALX_KEY_Z).PRESSED)
 		VoxelWorld_Cubes_Mode(&voxelworld,voxelworld.mode + 1);
@@ -95,13 +123,32 @@ void Update(AlxWindow* w){
 	if(Stroke(ALX_KEY_A).DOWN) 	Figure3D_AccLeft(VoxelWorld_GetFigure(&voxelworld),20.0f * w->ElapsedTime);
 	if(Stroke(ALX_KEY_D).DOWN)  Figure3D_AccLeft(VoxelWorld_GetFigure(&voxelworld),-20.0f * w->ElapsedTime);
 
-	if(Stroke(ALX_MOUSE_L).PRESSED) VoxelWorld_Place(&voxelworld,BLOCK_VOID,4.0f);
-	if(Stroke(ALX_MOUSE_R).PRESSED) VoxelWorld_PlaceN(&voxelworld,BLOCK_TORCH,4.0f);
+	if(selector.visible){
+		if(Stroke(ALX_MOUSE_L).PRESSED){
+    	    selected = *(Block*)Selector_Interact(
+    	        &selector,
+    	        GetMouse().x / (float)GetWidth(),
+    	        GetMouse().y / (float)GetHeight()
+    	    );
+    	}
+	
+    	if(Stroke(ALX_MOUSE_S_UP).PRESSED){
+    	    Selector_Offset(&selector,-1);
+    	}
+    	if(Stroke(ALX_MOUSE_S_DOWN).PRESSED){
+    	    Selector_Offset(&selector,1);
+    	}
+	}else{
+		if(Stroke(ALX_MOUSE_L).PRESSED) VoxelWorld_Place(&voxelworld,BLOCK_VOID,4.0f);
+		if(Stroke(ALX_MOUSE_R).PRESSED) VoxelWorld_PlaceN(&voxelworld,selected,4.0f);
+	}
 
 	VoxelWorld_Update(&voxelworld,w->ElapsedTime);
 
 	Clear(LIGHT_BLUE);
 	VoxelWorld_Render(WINDOW_STD_ARGS,&voxelworld);
+
+	Selector_Render(&selector,WINDOW_STD_ARGS,GetMouse().x / (float)GetWidth(),GetMouse().y / (float)GetHeight());
 
 	String str = String_Format("X: %f, Y: %f, Z: %f, Size: %d",VoxelWorld_GetFigure(&voxelworld)->p.x,VoxelWorld_GetFigure(&voxelworld)->p.y,VoxelWorld_GetFigure(&voxelworld)->p.z,(Number)voxelworld.meshselected->size);
 	RenderCStrSize(str.Memory,str.size,0,0,RED);
