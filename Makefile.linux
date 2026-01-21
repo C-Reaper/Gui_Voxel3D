@@ -1,6 +1,8 @@
 # === Makefile.linux ===
 
 CC = gcc
+#WARNINGS = -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wdouble-promotion -Wformat=2 -Wstrict-overflow=5 -Wundef -Wcast-align -Wcast-qual -Wpointer-arith -Wwrite-strings -Wmissing-declarations -Wredundant-decls -Winline -Werror
+#CFLAGS = $(WARNINGS) -O3 -mavx2 -std=gnu17
 CFLAGS = -O3 -mavx2 -std=gnu17
 INCLUDES = -Isrc
 LDFLAGS = -lm -lX11 -lpng -ljpeg
