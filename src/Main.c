@@ -45,17 +45,37 @@ void Setup(AlxWindow* w){
 
 	selector = Selector_New(
         (Block[]){
-            BLOCK_VOID,BLOCK_DIRT,
-			BLOCK_STONE,BLOCK_GRASS,
-			BLOCK_GRAS,BLOCK_LEAF,
-			BLOCK_LOGS,BLOCK_LOG,
-			BLOCK_TORCH
+            BLOCK_VOID,
+			BLOCK_BEDROCK,
+			BLOCK_DIRT,
+			BLOCK_STONE,
+			BLOCK_GRASS,
+			BLOCK_GRAS,
+			BLOCK_LEAF,
+			BLOCK_LOGS,
+			BLOCK_LOG,
+			BLOCK_TORCH,
+			BLOCK_COLE,
+			BLOCK_COPPER,
+			BLOCK_IRON,
+			BLOCK_GOLD,
+			BLOCK_DIAMONDS,
+			BLOCK_RUBIES,
+			BLOCK_SAPPHIRES,
+			BLOCK_EMERALDS,
+			BLOCK_GRANITE,
+			BLOCK_BASALT,
+			BLOCK_SANDSTONE,
+			BLOCK_LIMESTONE,
+			BLOCK_CLAYSTONE,
+			BLOCK_GNEISS,
+			BLOCK_SLATE
         },
         sizeof(Block),
-        9U,
+        25U,
         LIGHT_GRAY,
         0.05f,0.05f,0.9f,0.9f,
-        0.1f,0.2f,
+        0.10f,0.2f,
         (void(*)(void*,unsigned int*,int,int,float,float,float,float))Fn_Render
     );
 
@@ -125,11 +145,12 @@ void Update(AlxWindow* w){
 
 	if(selector.visible){
 		if(Stroke(ALX_MOUSE_L).PRESSED){
-    	    selected = *(Block*)Selector_Interact(
+    	    Block* b = (Block*)Selector_Interact(
     	        &selector,
     	        GetMouse().x / (float)GetWidth(),
     	        GetMouse().y / (float)GetHeight()
     	    );
+			if(b) selected = *b;
     	}
 	
     	if(Stroke(ALX_MOUSE_S_UP).PRESSED){
