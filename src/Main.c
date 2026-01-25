@@ -171,7 +171,7 @@ void Update(AlxWindow* w){
 
 	Selector_Render(&selector,WINDOW_STD_ARGS,GetMouse().x / (float)GetWidth(),GetMouse().y / (float)GetHeight());
 
-	String str = String_Format("X: %f, Y: %f, Z: %f, Size: %d",VoxelWorld_GetFigure(&voxelworld)->p.x,VoxelWorld_GetFigure(&voxelworld)->p.y,VoxelWorld_GetFigure(&voxelworld)->p.z,(Number)voxelworld.meshselected->size);
+	String str = String_Format("X: %f, Y: %f, Z: %f, Size: %d",VoxelWorld_GetFigure(&voxelworld)->p.x,VoxelWorld_GetFigure(&voxelworld)->p.y,VoxelWorld_GetFigure(&voxelworld)->p.z,(Number)Voxel_World_Tris(&voxelworld.map));
 	RenderCStrSize(str.Memory,str.size,0,0,RED);
 	String_Free(&str);
 }
