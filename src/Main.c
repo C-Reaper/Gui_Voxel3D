@@ -101,7 +101,6 @@ void Setup(AlxWindow* w){
 	);
 	VoxelWorld_Start(&voxelworld);
 }
-
 void Update(AlxWindow* w){
 	if(voxelworld.menu==1){
 		if(GetMouse().x!=voxelworld.mousebefore.x || GetMouse().y!=voxelworld.mousebefore.y){
@@ -175,7 +174,6 @@ void Update(AlxWindow* w){
 	RenderCStrSize(str.Memory,str.size,0,0,RED);
 	String_Free(&str);
 }
-
 void Delete(AlxWindow* w){
 	VoxelWorld_Free(&voxelworld);
 	AlxWindow_Mouse_SetVisible(&window);
