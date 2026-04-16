@@ -5,15 +5,15 @@
 *.a
 *.so
 
-*.vwh
-*.vct
+*.wasm
+*.html  
+*.js
 
 # Backup-Dateien
 *~
 *.bak
 *.swp
 
-# Editor/IDE-Dateien
 .vscode/
 *.log
 *.DS_Store
@@ -22,4 +22,3 @@
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
-
