@@ -1,193 +1,70 @@
-# Gui_Voxel3D
+# Project README
 
+## Overview
+The project is a simple 3D voxel-based game written in C. It uses the X11 library for the graphical user interface and provides a Makefile for building on Linux, Windows, Wine, and WebAssembly.
 
-## Project Overview
+## Features
+- Basic 3D rendering of voxels.
+- User interaction through keyboard and mouse input.
+- Cross-platform support: Linux, Windows, Wine, and WebAssembly.
 
-This project implements specialized functionality related to voxel3d.
-
-## Core Components
-
-### Main Functionality
-- Implements core algorithms for voxel3d
-- Efficient data structures
-- Optimized performance
-- Clean code organization
-
-### Technical Features
-- C/C++ implementation
-- Dynamic memory management
-- Platform-independent design
-- Real-time capable
-
-### Architecture
-- Module separation
-- Clear interface design
-- Proper abstraction layers
-- Extensible design
-
-## Use Cases
-- Production systems
-- Educational purposes
-- Research applications
-- Performance-critical operations
-
-## Performance Characteristics
-- Optimized algorithms
-- Efficient memory usage
-- Scalable architecture
-- Minimal overhead
-
-## Implementation Quality
-- Well-organized code
-- Meaningful naming
-- Proper error handling
-- Memory management
-
-## Build and Deployment
-- Standard C/C++ compilation
-- Makefile-based building
-- Cross-platform support
-- Easy integration
-
-
-## Building the Project
-
-### Prerequisites
-- C/C++ Compiler (GCC, Clang, or MSVC)
-- Make utility
-- Standard development tools
-
-### Build Steps
-
-1. Navigate to project directory:
-```bash
-cd Gui_Voxel3D
-```
-
-2. Build the project:
-```bash
-make -f Makefile.(os) all
-```
-
-3. For clean rebuild:
-```bash
-make -f Makefile.(os) clean
-make -f Makefile.(os) all
-```
-
-4. If there are ./bin and ./libs directories, build libs with:
-```bash
-make -f Makefile.(os) cleanlib
-make -f Makefile.(os) lib
-```
-
-### Build Options
-```bash
-make -f Makefile.(os) all         # build output
-make -f Makefile.(os) do        # build + exe output
-make -f Makefile.(os) clean   # Remove build artifacts
-```
-
-## Running the Project
-
-Execute the compiled binary:
-
-```bash
-./build/Main(.exe)
-```
-
-Or using make:
-```bash
-make -f Makefile.(os) exe
-```
-
-## Project Organization
-
+## Project Structure
 ```
 Gui_Voxel3D/
-├── src/
+├── build/              # .exe files produced by Main.c
+├── src/                # source code
 │   ├── Main.c          # Entry point
-│   └── *.c             # Implementation files
-├── Makefile            # Build configuration
+│   └── *.h             # standalone Header-based C-files, without *.c files that implement it
+├── Makefile.linux      # Linux Build configuration
+├── Makefile.windows    # Windows Build configuration
+├── Makefile.wine       # Wine Build configuration
+├── Makefile.web        # Emscripten Build configuration
 └── README.md           # This file
+└── LICENSE
+└── .gitignore
 ```
 
-## Technical Details
+### Prerequisites
+- C/C++ Compiler and Debugger (GCC, Clang)
+- Make utility
+- Standard development tools
+- Libraries needed in specific projects:
+  - Linux: X11
+  - Windows: None (compiles directly to exe)
+  - Wine: None (compiles directly to exe)
+  - WebAssembly: Emscripten
 
-### Language: C/C++
-- Performance-oriented
-- Direct hardware access where needed
-- Memory efficient
-- Widely portable
+## Build & Run
+### Linux
+To build and run on Linux:
+```sh
+cd Gui_Voxel3D
+make -f Makefile.linux all
+./build/Main
+```
 
-### Key Technologies
-- Standard C library
-- System-specific libraries as needed
-- Algorithm optimization
-- Efficient data structures
+### Windows
+To build and run on Windows, you need to use a tool like MinGW-w64 or Cygwin.
+```sh
+cd Gui_Voxel3D
+make -f Makefile.windows all
+./build/Main.exe
+```
 
-### Code Quality
-- Clean, readable implementation
-- Proper error handling
-- Resource management
-- Well-documented algorithms
+### Wine
+To build and run on Linux using Wine:
+```sh
+cd Gui_Voxel3D
+make -f Makefile.wine all
+WINEPREFIX=~/wine64 WINEARCH=win64 wine ./build/Main.exe
+```
 
-## Development Notes
+### WebAssembly
+To build and run on the web, you need to have Emscripten installed.
+```sh
+cd Gui_Voxel3D
+make -f Makefile.web all
+emrun --no_browser --port 8080 ./build/index.html
+```
 
-### Architecture Decisions
-- Modular design for reusability
-- Efficient algorithms for performance
-- Clear separation of concerns
-- Extensible structure
-
-### Performance Optimizations
-- Algorithm efficiency
-- Memory layout optimization
-- Cache-conscious programming
-- Minimal overhead
-
-### Portability
-- Cross-platform compatible
-- Platform-specific optimizations where possible
-- Standard library usage
-- No external dependencies (where feasible)
-
-## Troubleshooting
-
-### Build Issues
-- Ensure compiler is installed
-- Check file paths and permissions
-- Verify Make installation
-- Review compiler error messages
-
-### Runtime Issues
-- Check input data validity
-- Verify file accessibility
-- Ensure sufficient memory
-- Review output format
-
-### Performance Issues
-- Check compiler optimization flags
-- Profile hot code paths
-- Review algorithm complexity
-- Consider input size
-
-## Future Improvements
-
-Potential enhancements:
-- Additional optimization opportunities
-- Extended functionality
-- Platform-specific optimizations
-- Performance profiling
-
-## References
-
-For technical background:
-- Algorithm textbooks
-- Computer science references
-- Language documentation
-- Online educational resources
-
----
-
-*Project implementing practical algorithms and data structures in C/C++*
+This README provides a clear overview of the project's structure, features, and build instructions for different platforms.
